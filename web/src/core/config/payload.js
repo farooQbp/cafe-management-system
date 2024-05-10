@@ -53,7 +53,7 @@ const PAYLOAD_SAMPLE = {
     ITEM_INGREDIENT: 'ingredient ID',
 
     // Category Management
-    UPDATE_CATEGORY: {
+    ADD_CATEGORY: {
         id: 4,
         name: "SWEETS"
     },
