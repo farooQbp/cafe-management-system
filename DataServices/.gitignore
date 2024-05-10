@@ -23,7 +23,6 @@ coverage/
 
 # Ignore compiled Python files
 __pycache__/
-myenv/
 *.pyc
 
 # Ignore macOS directory metadata files
