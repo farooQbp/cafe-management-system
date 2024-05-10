@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/home';
 import UserDetails from '../pages/users';
 import LoginPage from '../pages/login';
-import PrivateRoute from '../components/privateroutes';
 
 
 const Routers = () => {
@@ -14,8 +13,9 @@ const Routers = () => {
         <Suspense fallback={<CircularProgress />}>
             <Routes>
                 <Route path='/login' element={<LoginPage setLoggedIn={setLoggedIn} />} />
-                <PrivateRoute path="/" component={Home} loggedIn={loggedIn} />
-                <PrivateRoute path="/users" component={UserDetails} loggedIn={loggedIn} />
+                <Route path='/' element={<Home />} />
+                <Route path='/users' element={<UserDetails loggedIn={loggedIn} />} />
+                {/* <PrivateRoute path="/users" component={UserDetails} loggedIn={loggedIn} /> */}
             </Routes>
         </Suspense>
     )
