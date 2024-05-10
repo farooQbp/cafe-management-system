@@ -29,20 +29,21 @@ def get_all_items(connection):
 
 def calculate_item_price(ingredients, inventory, percentage):
     total_price = 0
+    ingredient_array = []
     for ingredient in ingredients:
         for item in inventory:
             if item['NAME'].upper() == ingredient['ingredient'].upper():
                 if (ingredient['ingredientId'] == item['ID']) or (ingredient['ingredient'], item['NAME']):
+                    ingredient_array.insert(item['NAME'])
                     # Convert grams to kilograms
                     quantity_kg = ingredient['quantity'] / 1000
-                    print(ingredient['ingredient'], quantity_kg, item['PRICE_PER_UNIT'])
                     # Calculate the price based on price per kilogram
                     total_price += quantity_kg * item['PRICE_PER_UNIT']
                     break
     total_price += total_price * percentage
     # Round to the next multiple of 5 if not already a multiple of 5
     total_price = math.ceil(total_price / 5) * 5
-    return total_price
+    return { "price": total_price, "ingredients": ingredient_array}
 
 def add_item(connection, payload):
     item_ingredients_collection = monodb_connection('itemIngredients')
@@ -56,7 +57,7 @@ def add_item(connection, payload):
         for item in item_ingredients:
             if payload['name'].upper() == item["itemName"].upper():
                 # Calculate the price of the item based on ingredients
-                price = calculate_item_price(item['ingredients'], inventory, 0.1)
+                price_ingredients = calculate_item_price(item['ingredients'], inventory, 0.1)
                 new_item = {
                     "AVAILABILITY": True,
                     "CATEGORY": payload['category'],
@@ -64,7 +65,8 @@ def add_item(connection, payload):
                     "IMG_URL": payload['imgUrl'],
                     "INGREDIENTS": item["_id"],
                     "NAME": item["itemName"].upper(),
-                    "PRICE": price
+                    "PRICE": price_ingredients["price"],
+                    "INGREDIENT_DETAILS": price_ingredients["ingredients"]
                 }
                 items_collection.insert_one(new_item)
         

@@ -1,0 +1,2 @@
+export const APPLICATION_NAME = 'CAFE MANAGEMENT'
+export const APPLICATION_VERSION = 0.1
