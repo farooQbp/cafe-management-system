@@ -36,9 +36,13 @@ class cafeManagement {
             fetchAvailableInventory: action,
             updateInventoryStatus: action,
             addNewInventory: action,
+            handleSnackBar: action,
 
 
             // State Management
+            showSnackbar: observable,
+            setShowSnackbar: action,
+
             userType: observable,
             setUserType: action,
 
@@ -50,6 +54,15 @@ class cafeManagement {
     // User API Management
     fetchUserTypes = () => {
         const response = getAPI(API_URL.USER_TYPES);
+        if (response) {
+            response.then((res) => {
+                const userTypes = res.data.map((item) => ({ value: item.USER_TYPE_NAME, label: item.USER_TYPE_NAME }))
+                this.setUserType(userTypes)
+            }).catch((err) => {
+                this.setUsers([])
+                console.error(err)
+            })
+        }
         return response;
     }
 
@@ -145,7 +158,36 @@ class cafeManagement {
         return response;
     }
 
+    // Other Functions
+    handleSnackBar = (type, message) => {
+        this.setShowSnackbar({
+            open: true,
+            type: type, // warning, info, error, success
+            message: message, 
+        })
+        setTimeout(() => {
+            this.resetSnackbar();
+        }, 3000)
+    }
+
     //  State Management
+
+    showSnackbar = {
+        type: 'success',
+        message: "Testing",
+        open: false,
+    }
+    setShowSnackbar = (type) => {
+        this.showSnackbar = type;
+    }
+
+    resetSnackbar = () => {
+        this.showSnackbar = {
+            ...this.showSnackbar,
+            open: false,
+        }
+    }
+
     userType = []
     setUserType = (type) => {
         this.userType = type;

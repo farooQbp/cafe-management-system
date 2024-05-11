@@ -79,7 +79,7 @@ def setup_items_routes(app):
             connection = connect_to_oracle()
             payload = request.json
             add_item(connection, payload)
-            return jsonify({'message': 'New Item added successfully'})
+            return jsonify('New Item added successfully')
         except cx_Oracle.DatabaseError as e:
             return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
         finally:
@@ -96,5 +96,5 @@ def setup_items_routes(app):
         connection = monodb_connection('items')
         payload = request.json
         update_item(connection, payload, item_id)
-        return jsonify({'message': 'Item updated successfully'})
+        return jsonify('Item updated successfully')
 

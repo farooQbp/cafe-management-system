@@ -56,7 +56,7 @@ def setup_order_routes(app):
         connection = monodb_connection('itemIngredients')
         payload = request.json
         order_item(connection, payload)
-        return jsonify({'message': 'Order Placed successfully'})
+        return jsonify('Order Placed successfully')
     
     @app.route('/order/<string:item_id>', methods=['GET'])
     def item_order(item_id):

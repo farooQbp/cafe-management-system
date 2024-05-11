@@ -1,12 +1,10 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import useStyles from './style';
+import { Button } from '@mui/material';
 
-const CustomButton = ({ children, onClick }) => {
-  const classes = useStyles();
+const CustomButton = ({ children, onClick, variant, disabled, startIcon, endIcon }) => {
 
   return (
-    <Button className={classes.button} onClick={onClick}>
+    <Button onClick={onClick} variant={variant} disabled={disabled} disableElevation disableRipple startIcon={startIcon} endIcon={endIcon}>
       {children}
     </Button>
   );
