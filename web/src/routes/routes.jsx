@@ -15,7 +15,6 @@ const Routers = () => {
                 <Route path='/login' element={<LoginPage setLoggedIn={setLoggedIn} />} />
                 <Route path='/' element={<Home />} />
                 <Route path='/users' element={<UserDetails loggedIn={loggedIn} />} />
-                {/* <PrivateRoute path="/users" component={UserDetails} loggedIn={loggedIn} /> */}
             </Routes>
         </Suspense>
     )

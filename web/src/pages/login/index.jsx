@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { passwordEncrypt } from '../../core/utils';
+import CustomButton from '../../components/button';
 
 const LoginPage = (props) => {
     const {
@@ -20,8 +21,8 @@ const LoginPage = (props) => {
         setPassword(event.target.value);
     };
 
-    const handleLogin = () => {
-        const pppp = passwordEncrypt(password)
+    const handleLogin = async () => {
+        const pppp = await passwordEncrypt(password)
         console.log('ppppppppppppppppppppppppppppppppp', password, pppp)
         // Simulate login logic (replace with actual logic)
         if (username === 'admin' && password === 'password') {
@@ -56,7 +57,7 @@ const LoginPage = (props) => {
                         value={password}
                         onChange={handlePasswordChange}
                     />
-                    <Button
+                    <CustomButton
                         onClick={handleLogin}
                         variant="contained"
                         color="primary"
@@ -65,7 +66,7 @@ const LoginPage = (props) => {
                         sx={{ mt: 2 }}
                     >
                         Login
-                    </Button>
+                    </CustomButton>
                 </form>
             </Box>
         </Container>
