@@ -9,7 +9,7 @@ from ..utils.utils import stock_updation
 from .categoryroutes import update_inventory
 
 def find_order(connection, object_id):
-    query = {"_id": ObjectId(object_id)}
+    query = query = {"_id": ObjectId(object_id)} if object_id else {}
     # projection = {"_id": 0}
     # cursor = connection.find(query, projection) # to remove _id
     cursor = connection.find(query)
@@ -62,3 +62,8 @@ def setup_order_routes(app):
     def item_order(item_id):
         connection = monodb_connection('orderManagement')
         return find_order(connection, item_id)
+    
+    @app.route('/order', methods=['GET'])
+    def all_order():
+        connection = monodb_connection('orderManagement')
+        return find_order(connection, False)

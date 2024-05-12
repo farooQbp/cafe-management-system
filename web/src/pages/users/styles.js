@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         backgroundColor: 'white',
         padding: '10px',
-        minHeight: '50vh'
     },
     tabs: {
         color: 'white'

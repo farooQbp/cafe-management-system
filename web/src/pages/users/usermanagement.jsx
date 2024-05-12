@@ -6,6 +6,7 @@ import ViewAllUsers from './viewallusers';
 import AddNewUser from './addnewuser';
 import EditUser from './edituser';
 import useStyles from './styles';
+import { Typography } from '@mui/material';
 
 const UserManagementPage = (props) => {
     const {
@@ -20,6 +21,7 @@ const UserManagementPage = (props) => {
 
     return (
         <Box sx={{ width: '100%' }}>
+            <Typography variant='h5' textAlign='center' fontWeight={600}>User Management</Typography>
             <Tabs value={selectedTab} onChange={handleChangeTab} centered textColor="white" indicatorColor="primary">
                 <Tab label="View All Users" sx={classes.tabs} />
                 <Tab label="Add New User" />

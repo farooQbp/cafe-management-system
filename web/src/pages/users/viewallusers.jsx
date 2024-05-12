@@ -36,9 +36,9 @@ const ViewAllUsers = ({ users }) => {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="right">Name</TableCell>
-                                    <TableCell align="right">Email</TableCell>
-                                    <TableCell align="right">User Type</TableCell>
+                                    <TableCell><b>Name</b></TableCell>
+                                    <TableCell><b>Email</b></TableCell>
+                                    <TableCell><b>User Type</b></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -50,8 +50,8 @@ const ViewAllUsers = ({ users }) => {
                                         <TableCell component="th" scope="row">
                                             {row.USER_NAME}
                                         </TableCell>
-                                        <TableCell align="right">{row.USER_EMAIL}</TableCell>
-                                        <TableCell align="right">{row.USER_TYPE}</TableCell>
+                                        <TableCell>{row.USER_EMAIL}</TableCell>
+                                        <TableCell>{row.USER_TYPE}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

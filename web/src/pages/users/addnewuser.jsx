@@ -9,6 +9,7 @@ import CustomDropdown from '../../components/dropdown';
 import cafeManagement from '../../store/cafe';
 import { observer } from 'mobx-react-lite';
 import PAYLOAD_SAMPLE from '../../core/config/payload';
+import { passwordEncrypt } from '../../core/utils';
 
 const AddNewUser = () => {
     const classes = useStyles();
@@ -86,16 +87,19 @@ const AddNewUser = () => {
             cafeStore.handleSnackBar('error', 'Invalid Entry')
             return;
         } else {
+            const encryptedPassword = await passwordEncrypt(formData.password)
             let payload = {
                 ...PAYLOAD_SAMPLE.ADD_USER,
                 ...formData
             }
-            payload = { ...payload, id: cafeStore.users.length + 1 }
+            payload = { ...payload, id: cafeStore.users.length + 1, password: encryptedPassword }
             const response = await cafeStore.addNewUser(payload);
-            if (response.status === 200) {
-                cafeStore.handleSnackBar('success', response.data)
+            if (response) {
+                if (response.status === 200) {
+                    cafeStore.handleSnackBar('success', response.data)
+                }
+                handleReset();
             }
-            handleReset();
         }
     };
 

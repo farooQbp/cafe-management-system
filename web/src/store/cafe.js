@@ -10,6 +10,9 @@ configure({
 class cafeManagement {
     constructor() {
         makeObservable(this, {
+
+            userLoginAction: action,
+
             // User Mangement functions
             fetchUserTypes: action,
             fetchUsers: action,
@@ -19,6 +22,7 @@ class cafeManagement {
             // Order Management functions
             addNewOrder: action,
             fetchCurrentOrder: action,
+            fetchOrderSummary: action,
 
             // Item Management functions
             addNewItem: action,
@@ -48,7 +52,27 @@ class cafeManagement {
 
             users: observable,
             setUsers: action,
+
+            allOrders: observable,
+            setAllOrders: action,
+
+            categories: observable,
+            setCategories: action,
+
+            inventory: observable,
+            setInventory: action,
+
+            items: observable,
+            setItems: action,
+
+            dietory: observable,
+            setDietory: action,
         });
+    }
+
+    userLoginAction = async (userAPI) => {
+        const response = await getAPI(API_URL.LOGIN, userAPI);
+        return response;
     }
 
     // User API Management
@@ -97,6 +121,19 @@ class cafeManagement {
 
     fetchCurrentOrder = (orderID) => {
         const response = getAPI(API_URL.ORDER, orderID);
+        if (response) {
+            response.then((res) => {
+                orderID ? this.setUsers(res.data) : this.setAllOrders(res.data)
+            }).catch((err) => {
+                orderID ? this.setUsers([]) : this.setAllOrders([])
+                console.error(err)
+            })
+        }
+        return response;
+    }
+
+    fetchOrderSummary = (orderID) => {
+        const response = postAPI(API_URL.ORDER_SUMMARY, orderID);
         return response;
     }
 
@@ -108,6 +145,14 @@ class cafeManagement {
 
     fetchAllItems = () => {
         const response = getAPI(API_URL.ITEMS);
+        if (response) {
+            response.then((res) => {
+                this.setItems(res.data)
+            }).catch((err) => {
+                this.setItems([])
+                console.error(err)
+            })
+        }
         return response;
     }
 
@@ -130,21 +175,45 @@ class cafeManagement {
     // Category API Management
     fetchCategories = () => {
         const response = getAPI(API_URL.CATEGORY_TYPES);
+        if (response) {
+            response.then((res) => {
+                this.setCategories(res.data)
+            }).catch((err) => {
+                this.setCategories([])
+                console.error(err)
+            })
+        }
         return response;
     }
 
     addNewCategory = (payload) => {
-        const response = postAPI(API_URL.USER_TYPES, payload);
+        const response = postAPI(API_URL.CATEGORY_TYPES, payload);
         return response;
     }
 
     fetchDietoryPreference = () => {
         const response = getAPI(API_URL.DIETORY);
+        if (response) {
+            response.then((res) => {
+                this.setDietory(res.data)
+            }).catch((err) => {
+                this.setDietory([])
+                console.error(err)
+            })
+        }
         return response;
     }
 
     fetchAvailableInventory = () => {
         const response = getAPI(API_URL.INVENTORY);
+        if (response) {
+            response.then((res) => {
+                this.setInventory(res.data)
+            }).catch((err) => {
+                this.setInventory([])
+                console.error(err)
+            })
+        }
         return response;
     }
 
@@ -196,6 +265,31 @@ class cafeManagement {
     users = []
     setUsers = (type) => {
         this.users = type;
+    }
+
+    allOrders = []
+    setAllOrders = (orders) => {
+        this.allOrders = orders;
+    }
+
+    categories = []
+    setCategories = (category) => {
+        this.categories = category;
+    }
+
+    inventory = []
+    setInventory = (inventories) => {
+        this.inventory = inventories;
+    }
+
+    items = []
+    setItems = (inventories) => {
+        this.items = inventories;
+    }
+
+    dietory = []
+    setDietory = (inventories) => {
+        this.dietory = inventories;
     }
 }
 

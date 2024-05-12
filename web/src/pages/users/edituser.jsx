@@ -125,51 +125,49 @@ const EditUser = () => {
 
   return (
     <div className={classes.pageContainer}>
-      {user.length ? (
-        <Box component="section" sx={{ p: 2, border: '1px dashed grey', marginY: '0px' }}>
-          <div className={classes.formControl}>
-            <div className={classes.formSelectControl}>
-              <CustomDropdown
-                name="user"
-                id="selectUser"
-                value={formData.id}
-                onChange={handleUserChange}
-                label="Select User"
-                options={user}
-                error={formError.id}
-              />
-            </div>
+      <Box component="section" sx={{ p: 2, border: '1px dashed grey', marginY: '0px' }}>
+        <div className={classes.formControl}>
+          <div className={classes.formSelectControl}>
+            <CustomDropdown
+              name="user"
+              id="selectUser"
+              value={formData.id}
+              onChange={handleUserChange}
+              label="Select User"
+              options={user}
+              error={formError.id}
+            />
           </div>
-          <form className={classes.formContainer}>
-            <Stack direction="column" spacing={2} width='80%'>
-              <Stack direction="row" spacing={2}>
-                <TextInput
-                  name="name"
-                  id="username"
-                  value={formData.name}
-                  onChange={handleChange}
-                  label="Name"
-                  type='text'
-                  error={formError.name}
-                />
-                <TextInput
-                  name="email"
-                  id="useremail"
-                  value={formData.email}
-                  onChange={handleChange}
-                  label="Email"
-                  type='email'
-                  error={formError.email}
-                />
-              </Stack>
-              <Stack direction="row" spacing={2} alignItems="center" justifyContent='center'>
-                <CustomButton onClick={handleReset} className={classes.button} variant='outlined' startIcon={<BackspaceIcon />} >Discard Changes</CustomButton>
-                <CustomButton onClick={handleSubmit} className={classes.button} variant='contained' endIcon={<SendIcon />} >Update User</CustomButton>
-              </Stack>
+        </div>
+        <form className={classes.formContainer}>
+          <Stack direction="column" spacing={2} width='80%'>
+            <Stack direction="row" spacing={2}>
+              <TextInput
+                name="name"
+                id="username"
+                value={formData.name}
+                onChange={handleChange}
+                label="Name"
+                type='text'
+                error={formError.name}
+              />
+              <TextInput
+                name="email"
+                id="useremail"
+                value={formData.email}
+                onChange={handleChange}
+                label="Email"
+                type='email'
+                error={formError.email}
+              />
             </Stack>
-          </form>
-        </Box>
-      ) : null}
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent='center'>
+              <CustomButton onClick={handleReset} className={classes.button} variant='outlined' startIcon={<BackspaceIcon />} >Discard Changes</CustomButton>
+              <CustomButton onClick={handleSubmit} className={classes.button} variant='contained' endIcon={<SendIcon />} >Update User</CustomButton>
+            </Stack>
+          </Stack>
+        </form>
+      </Box>
     </div>
   );
 };

@@ -1,75 +1,83 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Typography, Container, Box } from '@mui/material';
+import { Typography, Stack } from '@mui/material';
 import { passwordEncrypt } from '../../core/utils';
 import CustomButton from '../../components/button';
+import useStyles from './styles';
+import TextInput from '../../components/textinput';
+import cafeManagement from '../../store/cafe';
 
 const LoginPage = (props) => {
+    const classes = useStyles();
+    const cafeStore = useContext(cafeManagement);
     const {
         setLoggedIn,
     } = props;
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [userLogin, setUserLogin] = useState({
+        email: '',
+        password: ''
+    });
     const navigate = useNavigate();
 
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
-    };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserLogin({
+            ...userLogin,
+            [name]: value,
+        });
     };
 
     const handleLogin = async () => {
-        const pppp = await passwordEncrypt(password)
-        console.log('ppppppppppppppppppppppppppppppppp', password, pppp)
-        // Simulate login logic (replace with actual logic)
-        if (username === 'admin' && password === 'password') {
-            setLoggedIn(true);
-            navigate.push('/');
-        } else {
-            alert('Invalid username or password');
+        const encryptedPassword = await passwordEncrypt(userLogin.password)
+        const userLoginStatus = await cafeStore.userLoginAction(`${userLogin.email}/${encryptedPassword}`)
+        if (userLoginStatus) {
+            if (userLoginStatus.data) {
+                setLoggedIn(true);
+                cafeStore.handleSnackBar('success', "User Logged in Successfully")
+                setTimeout(() => {
+                    navigate('/');
+                }, 100)
+            } else {
+                cafeStore.handleSnackBar('error', "Invalid email or password")
+            }
         }
     };
 
     return (
-        <Container maxWidth="sm">
-            <Box mt={5}>
-                <Typography variant="h4" align="center" gutterBottom>
+        <div className={classes.formContainer}>
+            <div className={classes.overlay} />
+            <div className={classes.loginDiv}>
+                <Typography variant="h4" align="center" gutterBottom color='red'>
                     Café Login
                 </Typography>
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <TextField
-                        label="Username"
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        value={username}
-                        onChange={handleUsernameChange}
+                <Stack direction="column" spacing={2} width='90%'>
+                    <TextInput
+                        name="email"
+                        id="useremail"
+                        onChange={handleChange}
+                        label="Email"
+                        type='text'
+                        value={userLogin.email}
                     />
-                    <TextField
-                        type="password"
+                    <TextInput
+                        name="password"
+                        id="userpassword"
+                        isPassword
+                        onChange={handleChange}
                         label="Password"
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        value={password}
-                        onChange={handlePasswordChange}
+                        value={userLogin.password}
                     />
                     <CustomButton
                         onClick={handleLogin}
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
-                        fullWidth
-                        size="large"
-                        sx={{ mt: 2 }}
                     >
                         Login
                     </CustomButton>
-                </form>
-            </Box>
-        </Container>
+                </Stack>
+            </div>
+        </div>
     );
 };
 

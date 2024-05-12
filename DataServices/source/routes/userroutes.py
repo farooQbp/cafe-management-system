@@ -6,6 +6,16 @@ def get_user_types(connection):
     with connection.cursor() as cursor:
         rows = fetch_all_rows("SELECT * FROM User_Type", cursor)
         return jsonify(rows)
+    
+def user_login_password(connection, name, password):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            Select * from Users WHERE USER_EMAIL = :name and USER_PASSWORD = :password""",
+            (name, password))
+        columns = [desc[0] for desc in cursor.description]
+        users = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        isValidUser = len(users)
+        return isValidUser >= 1
 
 def get_users(connection):
     with connection.cursor() as cursor:
@@ -36,6 +46,16 @@ def setup_user_routes(app):
         try:
             connection = connect_to_oracle()
             return get_user_types(connection)
+        except cx_Oracle.DatabaseError as e:
+            return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
+        finally:
+            if connection:
+                connection.close()
+    @app.route('/login/<string:user_name>/<string:user_password>', methods=['GET'])
+    def user_login(user_name, user_password):
+        try:
+            connection = connect_to_oracle()
+            return jsonify(user_login_password(connection, user_name, user_password))
         except cx_Oracle.DatabaseError as e:
             return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
         finally:

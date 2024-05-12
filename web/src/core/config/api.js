@@ -1,10 +1,12 @@
 const API_URL = {
+    LOGIN: 'login',
     // User Management
     USER_TYPES: 'user-types',
     USERS: 'users',
 
     // Order Management
     ORDER: 'order',
+    ORDER_SUMMARY: 'order-summary',
 
     // Item Management
     ADD_ITEM: 'add-item',

@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.formContainer {
+  position: absolute;
+  background-image: url("https://png.pngtree.com/background/20230617/original/pngtree-coffee-shop-interior-rendered-in-3d-white-brick-wall-marble-table-picture-image_3706327.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  padding: 0%;
+  margin: 0%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+}

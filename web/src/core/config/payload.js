@@ -20,7 +20,8 @@ const PAYLOAD_SAMPLE = {
                 ingredientId: '',
                 quantity: 1,
             }
-        ]
+        ],
+        price: 0,
     },
     SINGLE_ORDER: 'orderID',
 
