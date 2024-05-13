@@ -38,8 +38,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <div className="formContainer" />
-        <div className="overlay" />
+        <>
+          <div className="formContainer" />
+          <div className="overlay" />
+        </>
         <div>
           <CustomAppBar toggleDrawer={toggleDrawer} />
           <CustomDrawer toggleDrawer={toggleDrawer} open={open} />

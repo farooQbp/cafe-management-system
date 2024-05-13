@@ -2,13 +2,16 @@ import React from 'react';
 import { Observer, observer } from 'mobx-react-lite';
 import Routers from '../../routes/routes';
 import { Container } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 const DashBoard = observer(() => {
+
+    const location = useLocation()
     return (
         <Observer>
             {() => (
                 <Container
-                    sx={{
+                    sx={(location && location.pathname && !location.pathname.includes('login')) ? {
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
@@ -18,7 +21,7 @@ const DashBoard = observer(() => {
                         borderRadius: '10px',
                         maxHeight: '70vh',
                         overflowY: 'auto',
-                    }}
+                    } : {overflow: 'hidden',}}
                 ><Routers /></Container>)}
         </Observer>
     )
