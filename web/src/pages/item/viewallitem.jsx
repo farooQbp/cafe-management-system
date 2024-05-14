@@ -92,7 +92,7 @@ const ViewAllItem = ({ items }) => {
                             error={formError.price}
                         />
                         <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
-                            <Typography textAlign='center'>Available</Typography>
+                            <Typography textAlign='center'>Not Available</Typography>
                             <Switch
                                 name="availability"
                                 id="availability"
@@ -100,7 +100,7 @@ const ViewAllItem = ({ items }) => {
                                 color="secondary"
                                 onClick={handleChange}
                             />
-                            <Typography textAlign='center'>Not Available</Typography>
+                            <Typography textAlign='center'>Available</Typography>
                         </Stack>
                     </Stack>
                     <Stack direction="row" spacing={2} alignItems="center" justifyContent='center'>
@@ -121,10 +121,11 @@ const ViewAllItem = ({ items }) => {
 
     const updateStock = (item) => {
         setFormData({
-            ID: item.ID,
+            ID: item._id,
             NAME: item.NAME,
             availability: item.AVAILABILITY,
-            price: item.PRICE
+            price: item.PRICE,
+            upload: item.IMG_URL,
         })
         openSettings()
     }
@@ -170,8 +171,7 @@ const ViewAllItem = ({ items }) => {
     }
 
     const handleChange = (e) => {
-        console.log(e)
-        const { name, value, checked } = e.target;
+        const { name, value } = e.target;
         if (name === 'availability') {
             setFormData({
                 ...formData,
@@ -214,11 +214,13 @@ const ViewAllItem = ({ items }) => {
             NAME: '',
             availability: 0,
             price: 0,
-            upload: ''
+            upload: '',
+            ID: 0,
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
+        debugger;
         if (Object.values(formData).includes('')) {
             cafeStore.handleSnackBar('warning', 'Fields should not be empty')
             return;
@@ -229,7 +231,7 @@ const ViewAllItem = ({ items }) => {
             let payload = {
                 ...PAYLOAD_SAMPLE.UPDATE_ITEM,
             }
-            payload = { availability: formData.availability, price: formData.price }
+            payload = { name: formData.NAME, availability: formData.availability, price: Number(formData.price), image: formData.upload }
             const response = await cafeStore.updateItem(formData.ID, payload);
             if (response) {
                 if (response.status === 200) {
@@ -272,7 +274,7 @@ const ViewAllItem = ({ items }) => {
                                         key={row._id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell><img src='https://png.pngtree.com/png-clipart/20210815/original/pngtree-cup-of-coffee-png-image_6636482.jpg' width={60} /></TableCell>
+                                        <TableCell><img src='https://png.pngtree.com/png-clipart/20210815/original/pngtree-cup-of-coffee-png-image_6636482.jpg' width={60} alt='item' /></TableCell>
                                         <TableCell>{row.NAME}</TableCell>
                                         <TableCell><CustomButton variant="outlined" onClick={() => loadIngredient(row.INGREDIENTS)}>INGREDIENTS</CustomButton></TableCell>
                                         <TableCell>{filterIDwithName(row.DIETARY_PREFERENCE, cafeStore.dietory)}</TableCell>
