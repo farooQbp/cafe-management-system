@@ -32,7 +32,7 @@ export default function InputFileUpload({ onClick, name, value }) {
         Upload Image
         <VisuallyHiddenInput type="file" />
       </Button>
-      {value !== '' ? <img src={value} /> : null}
+      {value !== '' ? <img src={value} width={60} alt={name} /> : null}
     </Stack>
   );
 }

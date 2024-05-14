@@ -274,7 +274,7 @@ const ViewAllItem = ({ items }) => {
                                         key={row._id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell><img src='https://png.pngtree.com/png-clipart/20210815/original/pngtree-cup-of-coffee-png-image_6636482.jpg' width={60} alt='item' /></TableCell>
+                                        <TableCell><img src={row.IMG_URL} width={60} alt='item' /></TableCell>
                                         <TableCell>{row.NAME}</TableCell>
                                         <TableCell><CustomButton variant="outlined" onClick={() => loadIngredient(row.INGREDIENTS)}>INGREDIENTS</CustomButton></TableCell>
                                         <TableCell>{filterIDwithName(row.DIETARY_PREFERENCE, cafeStore.dietory)}</TableCell>
