@@ -176,7 +176,7 @@ const Home = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {cafeStore.cartItems.map((row) => (
+                                {cafeStore.cartItems.length ? cafeStore.cartItems.map((row) => (
                                     <TableRow
                                         key={row.itemId}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -186,14 +186,20 @@ const Home = () => {
                                         </TableCell>
                                         <TableCell>{row.quantity}</TableCell>
                                     </TableRow>
-                                ))}
+                                )) : (
+                                  <TableRow
+                                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                  >
+                                      <TableCell>Nothing Selected</TableCell>
+                                  </TableRow>
+                              )}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center" justifyContent='center'>
-                    <CustomButton onClick={handleAddmoreItems} className={classes.button} variant='contained' endIcon={<AddShoppingCartIcon />} >Add More Items</CustomButton>
-                    <CustomButton onClick={handlePlaceOrder} className={classes.button} variant='contained' endIcon={<ShoppingCartCheckoutIcon />} >Place Order</CustomButton>
+                    <CustomButton onClick={handleAddmoreItems} className={classes.button} variant='outlined' endIcon={<AddShoppingCartIcon />} >Add More Items</CustomButton>
+                    <CustomButton onClick={handlePlaceOrder} disabled={!cafeStore.cartItems.length} className={classes.button} variant='contained' endIcon={<ShoppingCartCheckoutIcon />} >Place Order</CustomButton>
                 </Stack>
             </Stack>
         </form>
