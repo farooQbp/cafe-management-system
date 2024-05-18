@@ -16,7 +16,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 0,
 });
 
-export default function InputFileUpload({ onClick, name, value }) {
+export default function InputFileUpload({ onClick, name, value, noImage }) {
   return (
     <Stack direction="column" spacing={2} width='80%'>
       <Button
@@ -32,7 +32,7 @@ export default function InputFileUpload({ onClick, name, value }) {
         Upload Image
         <VisuallyHiddenInput type="file" />
       </Button>
-      {value !== '' ? <img src={value} width={60} alt={name} /> : null}
+      {value !== '' && !noImage ? <img src={value} width={60} alt={name} /> : null}
     </Stack>
   );
 }

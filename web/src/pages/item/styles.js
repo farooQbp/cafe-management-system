@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: '20vw',
     },
     tabStyle: {
-        maxHeight: '50vh',
+        maxHeight: '55vh',
         overflowY: 'auto',
     }
 }));

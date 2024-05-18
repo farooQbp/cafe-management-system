@@ -8,6 +8,8 @@ import CustomButton from '../../components/button';
 import cafeManagement from '../../store/cafe';
 import { observer } from 'mobx-react-lite';
 import PAYLOAD_SAMPLE from '../../core/config/payload';
+import CustomDropdown from '../../components/dropdown';
+import InputFileUpload from './fileupload';
 
 const AddNewItem = () => {
     const classes = useStyles();
@@ -16,20 +18,20 @@ const AddNewItem = () => {
         availability: 0,
         price: 0
     });
-    const [formError, setFormError] = useState({
-        name: false,
-        availability: false,
-        price: false
-    });
 
     const cafeStore = useContext(cafeManagement);
 
-    const fetchCategoryTypes = async () => {
-        await cafeStore.fetchAllItems();
+    const fetchCategory = async () => {
+        await cafeStore.fetchCategories();
+    }
+
+    const fetchDietary = async () => {
+        await cafeStore.fetchDietoryPreference();
     }
 
     useEffect(() => {
-        if (!cafeStore.items.length) fetchCategoryTypes();
+        fetchDietary()
+        fetchCategory()
         // eslint-disable-next-line
     }, [])
 
@@ -39,30 +41,6 @@ const AddNewItem = () => {
             ...formData,
             [name]: value,
         });
-
-        // name validation
-        if (name === 'name' && value !== '') {
-            setFormError({
-                ...formError,
-                [name]: !/^[A-Za-z\s]{1,20}$/.test(value),
-            });
-        } else if (name === 'name' && value === '') {
-            setFormError({
-                ...formError,
-                [name]: false,
-            });
-        }
-        if (name !== 'name' && value !== '') {
-            setFormError({
-                ...formError,
-                [name]: !/^[0-9]{1,10}$/.test(value),
-            });
-        } else if (name !== 'name' && value === '') {
-            setFormError({
-                ...formError,
-                [name]: false,
-            });
-        }
     };
 
     const handleReset = () => {
@@ -74,25 +52,17 @@ const AddNewItem = () => {
     };
 
     const handleSubmit = async (e) => {
-        if (Object.values(formData).includes('')) {
-            cafeStore.handleSnackBar('warning', 'Fields should not be empty')
-            return;
-        } else if (Object.values(formError).includes(true)) {
-            cafeStore.handleSnackBar('error', 'Invalid Entry')
-            return;
-        } else {
-            let payload = {
-                ...PAYLOAD_SAMPLE.ADD_INVENTORY,
-                ...formData
+        let payload = {
+            ...PAYLOAD_SAMPLE.ADD_INVENTORY,
+            ...formData
+        }
+        payload = { ...payload, id: cafeStore.inventory.length + 1 }
+        const response = await cafeStore.addNewInventory(payload);
+        if (response) {
+            if (response.status === 200) {
+                cafeStore.handleSnackBar('success', response.data)
             }
-            payload = { ...payload, id: cafeStore.inventory.length + 1 }
-            const response = await cafeStore.addNewInventory(payload);
-            if (response) {
-                if (response.status === 200) {
-                    cafeStore.handleSnackBar('success', response.data)
-                }
-                handleReset();
-            }
+            handleReset();
         }
     };
 
@@ -104,30 +74,35 @@ const AddNewItem = () => {
                         <Stack direction="row" spacing={2}>
                             <TextInput
                                 name="name"
-                                id="username"
+                                id="name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 label="Name"
                                 type='text'
-                                error={formError.name}
+                            />
+                            <CustomDropdown
+                                name="dietary"
+                                id="dietary"
+                                value={formData.dietary}
+                                onChange={handleChange}
+                                label="Veg or Non Veg"
+                                options={cafeStore.dietory}
                             />
                         </Stack>
                         <Stack direction="row" spacing={2}>
-                            <TextInput
-                                name="price"
-                                id="price"
-                                value={formData.price}
+                            <CustomDropdown
+                                name="category"
+                                id="category"
+                                value={formData.category}
                                 onChange={handleChange}
-                                label="Price per (KG or Litre)"
-                                error={formError.price}
+                                label="Category"
+                                options={cafeStore.categories}
                             />
-                            <TextInput
-                                name="availability"
-                                id="availability"
-                                value={formData.availability}
-                                onChange={handleChange}
-                                label="Stock"
-                                error={formError.availability}
+                            <InputFileUpload
+                                name='upload'
+                                onClick={handleChange}
+                                value={formData.upload}
+                                noImage
                             />
                         </Stack>
                         <Stack direction="row" spacing={2} alignItems="center" justifyContent='center'>

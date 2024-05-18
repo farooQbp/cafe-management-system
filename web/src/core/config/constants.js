@@ -4,7 +4,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import BallotIcon from '@mui/icons-material/Ballot';
 import CategoryIcon from '@mui/icons-material/Category';
-import PersonIcon from '@mui/icons-material/Person';
 import APP_LOGO from '../../assets/logo.png'
 
 export const APPLICATION_NAME = 'CAFE MANAGEMENT'
@@ -16,7 +15,7 @@ export const APP_MENU = [
         value: 'home',
         subMenu: [],
         icon: <HomeIcon />,
-        path: '/',
+        path: '/home',
     },
     {
         name: 'User Management',
@@ -52,12 +51,5 @@ export const APP_MENU = [
         subMenu: [],
         icon: <CategoryIcon />,
         path: '/category',
-    },
-    {
-        name: 'Profile',
-        value: 'profile',
-        subMenu: [],
-        icon: <PersonIcon />,
-        path: '/profile',
     },
 ]

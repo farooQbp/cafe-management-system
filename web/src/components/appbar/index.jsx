@@ -6,12 +6,15 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
+import cafe from '../../store/cafe';
+import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -54,39 +57,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const CustomAppBar = ({ toggleDrawer }) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const isMenuOpen = Boolean(anchorEl);
+    const cafeStore = React.useContext(cafe);
 
     const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+        alert('Logout')
     };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
+    const handleCheckout = () => {
+        console.log(toJS(cafeStore.cartItems))
+    }
 
     const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-        </Menu>
-    );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
 
@@ -129,10 +109,21 @@ const CustomAppBar = ({ toggleDrawer }) => {
                             aria-label="account of current user"
                             aria-controls={menuId}
                             aria-haspopup="true"
+                            onClick={handleCheckout}
+                            color="inherit"
+                        >
+                            {cafeStore.cartItems.length ? <AddShoppingCartOutlinedIcon style={{ color: 'white' }} /> : <ShoppingCartOutlinedIcon style={{ color: 'white' }} />}
+                        </IconButton>&nbsp;&nbsp;
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle style={{ color: 'white' }} />
+                            <ExitToAppOutlinedIcon style={{ color: 'white' }} />
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -149,9 +140,8 @@ const CustomAppBar = ({ toggleDrawer }) => {
                     </Box>
                 </Toolbar>
             </AppBar>
-            {renderMenu}
         </Box>
     );
 }
 
-export default CustomAppBar;
+export default observer(CustomAppBar);

@@ -220,7 +220,6 @@ const ViewAllItem = ({ items }) => {
     };
 
     const handleSubmit = async () => {
-        debugger;
         if (Object.values(formData).includes('')) {
             cafeStore.handleSnackBar('warning', 'Fields should not be empty')
             return;

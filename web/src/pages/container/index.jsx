@@ -19,7 +19,7 @@ const DashBoard = observer(() => {
                         backgroundColor: 'white',
                         padding: '20px',
                         borderRadius: '10px',
-                        maxHeight: '70vh',
+                        maxHeight: '75vh',
                         overflowY: 'auto',
                     } : {overflow: 'hidden',}}
                 ><Routers /></Container>)}

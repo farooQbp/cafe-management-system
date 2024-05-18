@@ -67,6 +67,9 @@ class cafeManagement {
 
             dietory: observable,
             setDietory: action,
+            
+            cartItems: observable,
+            updateCartItems: action,
         });
     }
 
@@ -177,7 +180,8 @@ class cafeManagement {
         const response = getAPI(API_URL.CATEGORY_TYPES);
         if (response) {
             response.then((res) => {
-                this.setCategories(res.data)
+                const category = res.data.map((item) => ({ ...item, value: item.ID, label: item.NAME }))
+                this.setCategories(category)
             }).catch((err) => {
                 this.setCategories([])
                 console.error(err)
@@ -195,7 +199,8 @@ class cafeManagement {
         const response = getAPI(API_URL.DIETORY);
         if (response) {
             response.then((res) => {
-                this.setDietory(res.data)
+                const category = res.data.map((item) => ({ ...item, value: item.ID, label: item.NAME }))
+                this.setDietory(category)
             }).catch((err) => {
                 this.setDietory([])
                 console.error(err)
@@ -290,6 +295,11 @@ class cafeManagement {
     dietory = []
     setDietory = (inventories) => {
         this.dietory = inventories;
+    }
+
+    cartItems = []
+    updateCartItems = (items) => {
+        this.cartItems = items;
     }
 }
 
