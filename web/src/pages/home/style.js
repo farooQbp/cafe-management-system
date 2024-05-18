@@ -7,6 +7,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: theme.spacing(2),
+    maxHeight: '60vh',
+    overflow: 'auto'
   },
   addButton: {
     margin: theme.spacing(2),

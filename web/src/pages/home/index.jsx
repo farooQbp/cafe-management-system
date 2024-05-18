@@ -201,7 +201,7 @@ const Home = () => {
 )
 
   return (
-    <Box sx={{ minHeight: '500px' }}>
+    <Box sx={{ minHeight: '500px', maxHeight: '75vh' }}>
       {cafeStore.cartModalVisible && handleCartModal()}
       <Stack direction='column' spacing={2}>
         <Stack direction='row' spacing={2}>
