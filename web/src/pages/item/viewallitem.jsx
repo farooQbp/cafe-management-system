@@ -8,7 +8,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
     Stack,
     Typography,
     Switch,
@@ -44,7 +43,7 @@ const ViewAllItem = ({ items }) => {
     });
 
     const fetchUsers = async () => {
-        await cafeStore.fetchAllItems();
+        await cafeStore.fetchAllItems(PAYLOAD_SAMPLE.ALL_ITEMS);
     }
 
     const fetchCategory = async () => {
@@ -135,27 +134,29 @@ const ViewAllItem = ({ items }) => {
             <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
                 <Typography textAlign='center'>Ingredient List for {ingredients.itemName}</Typography>
             </Stack>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell><b>Ingredient</b></TableCell>
-                        <TableCell><b>Item Quantity in (grams or ml)</b></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {ingredients.ingredients.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {row.ingredient}
-                            </TableCell>
-                            <TableCell>{row.quantity}</TableCell>
+            <TableContainer sx={{ minWidth: 650, maxHeight: 200 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell><b>Ingredient</b></TableCell>
+                            <TableCell><b>Item Quantity in (grams or ml)</b></TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHead>
+                    <TableBody>
+                        {ingredients.ingredients.map((row, index) => (
+                            <TableRow
+                                key={index}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {row.ingredient}
+                                </TableCell>
+                                <TableCell>{row.quantity}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+                </TableContainer>
         </CustomModal>
     )
 
@@ -247,14 +248,14 @@ const ViewAllItem = ({ items }) => {
     }
 
     return (
-        <div className={classes.pageContainer}>
+        <div className={classes.pageContainerViewAll}>
             <CustomButton variant="outlined" onClick={fetchUsers}>Update Items</CustomButton>
             {(items && items.length) ? (
                 <Box component="section" sx={{ p: 2, border: '1px dashed grey', marginY: '10px' }}>
                     {itemsVisible && handleSettingsModal()}
                     {ingredientsVisible && handleIngredientsModal()}
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableContainer sx={{ minWidth: 650, maxHeight: 240 }}>
+                        <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell><b>ITEM</b></TableCell>

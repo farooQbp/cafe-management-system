@@ -70,6 +70,14 @@ const PAYLOAD_SAMPLE = {
         name: '',
         availability: 100,
         price: 0
+    },
+
+    ALL_ITEMS: {
+        filter: [],
+        sort: {
+            value: 'NAME',
+            sort: 1
+        }
     }
 }
 

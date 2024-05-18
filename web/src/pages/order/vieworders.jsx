@@ -8,7 +8,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import cafeManagement from '../../store/cafe';
@@ -32,27 +31,29 @@ const ViewAllOrders = ({ orders }) => {
 
     const handleSettingsModal = () => (
         <CustomModal open={itemsVisible} onClose={openSettings}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell><b>Item Name</b></TableCell>
-                        <TableCell><b>Item Quantity</b></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {items.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {row.item}
-                            </TableCell>
-                            <TableCell>{row.quantity}</TableCell>
+            <TableContainer sx={{ minWidth: 650, maxHeight: 200 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell><b>Item Name</b></TableCell>
+                            <TableCell><b>Item Quantity</b></TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHead>
+                    <TableBody>
+                        {items.map((row, index) => (
+                            <TableRow
+                                key={index}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {row.item}
+                                </TableCell>
+                                <TableCell>{row.quantity}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </CustomModal>
     )
 
@@ -71,8 +72,8 @@ const ViewAllOrders = ({ orders }) => {
             {(orders && orders.length) ? (
                 <Box component="section" sx={{ p: 2, border: '1px dashed grey', marginY: '10px' }}>
                     {itemsVisible && handleSettingsModal()}
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableContainer sx={{ minWidth: 650, maxHeight: 200 }}>
+                        <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell><b>Machine Name</b></TableCell>

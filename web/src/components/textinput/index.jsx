@@ -13,6 +13,8 @@ const TextInput = (props) => {
         isPassword,
         type,
         error,
+        isDisabled,
+        shrink,
     } = props;
 
     const [showPassword, setShowPassword] = React.useState(false);
@@ -30,6 +32,7 @@ const TextInput = (props) => {
                 name={name}
                 id={id}
                 label={label}
+                InputLabelProps={{ shrink: shrink}}
                 type={showPassword ? 'text' : 'password'}
                 error={error}
                 InputProps={{
@@ -50,6 +53,7 @@ const TextInput = (props) => {
                 value={value}
                 onChange={onChange}
                 helperText={error ? "Should not be empty" : ""}
+                disabled={isDisabled}
             />
         ) : (
             <TextField
@@ -62,7 +66,9 @@ const TextInput = (props) => {
                 value={value}
                 onChange={onChange}
                 error={error}
+                InputLabelProps={{ shrink: shrink}}
                 helperText={error ? "Incorrect entry" : ""}
+                disabled={isDisabled}
             />
         )
     )

@@ -56,11 +56,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const CustomAppBar = ({ toggleDrawer }) => {
+const CustomAppBar = ({ toggleDrawer, setLoggedIn }) => {
     const cafeStore = React.useContext(cafe);
 
     const handleProfileMenuOpen = (event) => {
-        alert('Logout')
+        window.location.href = '/';
+        setLoggedIn(false)
     };
     const handleCheckout = () => {
         console.log(toJS(cafeStore.cartItems))

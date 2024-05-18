@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button } from '@mui/material';
 
-const CustomButton = ({ children, onClick, variant, disabled, startIcon, endIcon, color, border }) => {
+const CustomButton = ({ children, onClick, variant, disabled, startIcon, endIcon, color, border, fullWidth }) => {
 
   return (
-    <Button size='medium' color={color || 'secondary'} onClick={onClick} variant={variant} disabled={disabled} disableElevation  disableTouchRipple disableRipple disableFocusRipple startIcon={startIcon} endIcon={endIcon} sx={{ border: border && `1px solid ${color || "secondary"}` }}>
+    <Button fullWidth={fullWidth} size='medium' color={color || 'secondary'} onClick={onClick} variant={variant} disabled={disabled} disableElevation  disableTouchRipple disableRipple disableFocusRipple startIcon={startIcon} endIcon={endIcon} sx={{ border: border && `1px solid ${color || "secondary"}` }}>
       {children}
     </Button>
   );

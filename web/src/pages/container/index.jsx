@@ -4,7 +4,7 @@ import Routers from '../../routes/routes';
 import { Container } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
-const DashBoard = observer(() => {
+const DashBoard = observer(({ loggedIn }) => {
 
     const location = useLocation()
     return (
@@ -19,10 +19,10 @@ const DashBoard = observer(() => {
                         backgroundColor: 'white',
                         padding: '20px',
                         borderRadius: '10px',
-                        maxHeight: '75vh',
+                        maxHeight: '80vh',
                         overflowY: 'auto',
                     } : {overflow: 'hidden',}}
-                ><Routers /></Container>)}
+                ><Routers loggedIn={loggedIn} /></Container>)}
         </Observer>
     )
 })

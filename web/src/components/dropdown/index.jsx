@@ -8,7 +8,6 @@ import {
 import useStyles from './style';
 
 const CustomDropdown = ({ label, value, onChange, options, id, defaultValue, error, name }) => {
-  console.log('qqqqqqqqqqqqqqqqqqqqqq', value, defaultValue, options)
   const classes = useStyles();
 
   const [selectWidth, setSelectWidth] = useState(0);

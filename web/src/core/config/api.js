@@ -16,6 +16,7 @@ const API_URL = {
     // Ingredient Management
     ADD_INGREDIENT: 'add-ingredients',
     ITEM_INGREDIENT: 'item-ingredients',
+    ALL_ITEM_INGREDIENTS: 'all-item-ingredients',
 
     // Category Management
     CATEGORY_TYPES: 'category-types',

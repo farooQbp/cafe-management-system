@@ -8,27 +8,12 @@ import { observer } from "mobx-react-lite";
 import CustomAppBar from "./components/appbar";
 import './index.css';
 import CustomDrawer from "./components/drawer";
+import LoginPage from "./pages/login";
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const theme = createTheme();
-  // {
-  //   palette: {
-  //     background: {
-  //       paper: '#fff',
-  //     },
-  //     text: {
-  //       primary: '#173A5E',
-  //       secondary: '#46505A',
-  //     },
-  //     action: {
-  //       active: '#001E3C',
-  //     },
-  //     success: {
-  //       dark: '#009688',
-  //     },
-  //   },
-  // }
   const cafeStore = useContext(cafeManagement);
 
   const toggleDrawer = (newOpen) => () => {
@@ -37,22 +22,26 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <>
-          <div className="formContainer" />
-          <div className="overlay" />
-        </>
-        <div>
-          <CustomAppBar toggleDrawer={toggleDrawer} />
-          <CustomDrawer toggleDrawer={toggleDrawer} open={open} />
-          <DashBoard />
-          <CustomSnackbar
-            open={cafeStore.showSnackbar.open}
-            message={cafeStore.showSnackbar.message}
-            type={cafeStore.showSnackbar.type}
-          />
-        </div>
-      </Router>
+      {!loggedIn ? <LoginPage setLoggedIn={setLoggedIn} /> : null}
+      {loggedIn ? (
+        <Router>
+          <>
+            <div className="formContainer" />
+            <div className="overlay" />
+          </>
+          <div>
+            <CustomAppBar toggleDrawer={toggleDrawer} setLoggedIn={setLoggedIn} />
+            <CustomDrawer toggleDrawer={toggleDrawer} open={open} />
+            <DashBoard loggedIn={loggedIn} />
+            <CustomSnackbar
+              open={cafeStore.showSnackbar.open}
+              message={cafeStore.showSnackbar.message}
+              type={cafeStore.showSnackbar.type}
+            />
+          </div>
+        </Router>
+      )
+        : null}
     </ThemeProvider>
   );
 }

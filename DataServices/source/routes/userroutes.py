@@ -10,12 +10,12 @@ def get_user_types(connection):
 def user_login_password(connection, name, password):
     with connection.cursor() as cursor:
         cursor.execute("""
-            Select * from Users WHERE USER_EMAIL = :name and USER_PASSWORD = :password""",
+            Select USER_TYPE, USER_NAME, USER_ID, USER_EMAIL from Users WHERE USER_EMAIL = :name and USER_PASSWORD = :password""",
             (name, password))
         columns = [desc[0] for desc in cursor.description]
         users = [dict(zip(columns, row)) for row in cursor.fetchall()]
         isValidUser = len(users)
-        return isValidUser >= 1
+        return users if isValidUser == 1 else []
 
 def get_users(connection):
     with connection.cursor() as cursor:

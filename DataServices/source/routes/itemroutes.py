@@ -21,9 +21,19 @@ def update_item(connection, payload, id):
         {"_id": ObjectId(id)},
         {"$set": new_values}
     )
+
+def create_filter_criteria(filters):
+    filter_criteria = {}
+    for f in filters:
+        if 'field' in f and 'value' in f:
+            filter_criteria[f['field']] = f['value']
+    return filter_criteria
     
-def get_all_items(connection):
-    cursor = connection.find({})
+def get_all_items(connection, payload):
+    filter_criteria = create_filter_criteria(payload['filter'])
+    sort_field = payload['sort']['value']
+    sort_order = payload['sort']['sort']
+    cursor = connection.find(filter_criteria).sort(sort_field, sort_order)
     documents = [{**doc, "_id": str(doc["_id"]), "INGREDIENTS": str(doc["INGREDIENTS"])} for doc in cursor]
     return jsonify(documents)
 
@@ -86,10 +96,11 @@ def setup_items_routes(app):
             if connection:
                 connection.close()
                 
-    @app.route('/items', methods=['GET'])
+    @app.route('/items', methods=['POST'])
     def get_available_items():
+        payload = request.json
         connection = monodb_connection('items')
-        return get_all_items(connection)
+        return get_all_items(connection, payload)
 
     @app.route('/update-item/<string:item_id>', methods=['PUT'])
     def items_update(item_id):

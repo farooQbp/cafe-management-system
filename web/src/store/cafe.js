@@ -32,6 +32,7 @@ class cafeManagement {
             // Ingredient Management functions
             addNewItemIngredient: action,
             fetchItemIngredient: action,
+            fetchAllItemIngredient: action,
 
             // Category Management functions
             fetchCategories: action,
@@ -70,6 +71,12 @@ class cafeManagement {
             
             cartItems: observable,
             updateCartItems: action,
+            
+            userName: observable,
+            updateUserName: action,
+            
+            allIngredients: observable,
+            updateAllIngredients: action,
         });
     }
 
@@ -146,8 +153,8 @@ class cafeManagement {
         return response;
     }
 
-    fetchAllItems = () => {
-        const response = getAPI(API_URL.ITEMS);
+    fetchAllItems = (payload) => {
+        const response = postAPI(API_URL.ITEMS, payload);
         if (response) {
             response.then((res) => {
                 this.setItems(res.data)
@@ -172,6 +179,12 @@ class cafeManagement {
 
     fetchItemIngredient = (itemID) => {
         const response = getAPI(API_URL.ITEM_INGREDIENT, itemID);
+        return response;
+    }
+
+    
+    fetchAllItemIngredient = () => {
+        const response = getAPI(API_URL.ALL_ITEM_INGREDIENTS);
         return response;
     }
 
@@ -297,9 +310,19 @@ class cafeManagement {
         this.dietory = inventories;
     }
 
-    cartItems = []
+    cartItems = {}
+    updateUserName = (items) => {
+        this.userName = items;
+    }
+
+    userName = []
     updateCartItems = (items) => {
         this.cartItems = items;
+    }
+
+    allIngredients = []
+    updateAllIngredients = (items) => {
+        this.allIngredients = items;
     }
 }
 

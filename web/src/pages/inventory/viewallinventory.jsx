@@ -8,7 +8,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
     Stack,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
@@ -162,8 +161,8 @@ const ViewAllInventory = ({ inventory }) => {
             {(inventory && inventory.length) ? (
                 <Box component="section" sx={{ p: 2, border: '1px dashed grey', marginY: '10px' }}>
                     {itemsVisible && handleSettingsModal()}
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableContainer sx={{ minWidth: 650, maxHeight: 200 }}>
+                        <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell><b>ID</b></TableCell>

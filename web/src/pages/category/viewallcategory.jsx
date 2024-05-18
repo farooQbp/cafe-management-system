@@ -8,7 +8,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import cafeManagement from '../../store/cafe';
@@ -32,8 +31,8 @@ const ViewAllCategory = ({ category }) => {
             <CustomButton variant="outlined" onClick={fetchUsers}>Update Category List</CustomButton>
             {(category && category.length) ? (
                 <Box component="section" sx={{ p: 2, border: '1px dashed grey', marginY: '10px' }}>
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableContainer sx={{ minWidth: 650, maxHeight: 200 }}>
+                        <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell><b>ID</b></TableCell>

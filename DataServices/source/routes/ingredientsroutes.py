@@ -37,6 +37,11 @@ def find_ingredients(connection, object_id):
     documents = [{**doc, "_id": str(doc["_id"])} for doc in cursor]
     return jsonify(documents)
 
+def find_all_ingredients(connection):
+    query = {}
+    cursor = connection.find(query)
+    documents = [{**doc, "_id": str(doc["_id"])} for doc in cursor]
+    return jsonify(documents)
 
 def setup_ingredients_routes(app):
     @app.route('/item-ingredients/<string:item_id>', methods=['GET'])
@@ -49,3 +54,8 @@ def setup_ingredients_routes(app):
         payload = request.json
         connection = monodb_connection('itemIngredients')
         return add_item_with_ingredient(connection, payload)
+
+    @app.route('/all-item-ingredients', methods=['GET'])
+    def all_ingredients():
+        connection = monodb_connection('itemIngredients')
+        return find_all_ingredients(connection)

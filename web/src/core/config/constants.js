@@ -15,7 +15,7 @@ export const APP_MENU = [
         value: 'home',
         subMenu: [],
         icon: <HomeIcon />,
-        path: '/home',
+        path: '/',
     },
     {
         name: 'User Management',

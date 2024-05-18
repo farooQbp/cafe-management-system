@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Typography, Stack } from '@mui/material';
 import { passwordEncrypt } from '../../core/utils';
 import CustomButton from '../../components/button';
@@ -18,7 +17,6 @@ const LoginPage = (props) => {
         email: '',
         password: ''
     });
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,12 +30,10 @@ const LoginPage = (props) => {
         const encryptedPassword = await passwordEncrypt(userLogin.password)
         const userLoginStatus = await cafeStore.userLoginAction(`${userLogin.email}/${encryptedPassword}`)
         if (userLoginStatus) {
-            if (userLoginStatus.data) {
+            if (userLoginStatus.data && userLoginStatus.data.length) {
                 setLoggedIn(true);
+                cafeStore.updateUserName(userLoginStatus.data)
                 cafeStore.handleSnackBar('success', "User Logged in Successfully")
-                setTimeout(() => {
-                    navigate('/');
-                }, 100)
             } else {
                 cafeStore.handleSnackBar('error', "Invalid email or password")
             }
