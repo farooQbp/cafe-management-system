@@ -33,15 +33,15 @@ function App() {
             <CustomAppBar toggleDrawer={toggleDrawer} setLoggedIn={setLoggedIn} />
             <CustomDrawer toggleDrawer={toggleDrawer} open={open} />
             <DashBoard loggedIn={loggedIn} />
-            <CustomSnackbar
-              open={cafeStore.showSnackbar.open}
-              message={cafeStore.showSnackbar.message}
-              type={cafeStore.showSnackbar.type}
-            />
           </div>
         </Router>
       )
         : null}
+      <CustomSnackbar
+        open={cafeStore.showSnackbar.open}
+        message={cafeStore.showSnackbar.message}
+        type={cafeStore.showSnackbar.type}
+      />
     </ThemeProvider>
   );
 }

@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import useStyles from './style';
 import ProductItem from '../../components/productitem';
 import cafeManagement from '../../store/cafe';
-import CustomButton from '../../components/button';
 import { Box, Stack } from '@mui/material';
 import CustomDropdown from '../../components/dropdown';
 import PAYLOAD_SAMPLE from '../../core/config/payload';
@@ -36,7 +35,6 @@ const Home = () => {
         return item.value;
       }
     }
-    // Return null or handle the case when no item is selected
     return null;
   }
 

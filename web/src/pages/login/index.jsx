@@ -35,6 +35,8 @@ const LoginPage = (props) => {
                 cafeStore.updateUserName(userLoginStatus.data)
                 cafeStore.handleSnackBar('success', "User Logged in Successfully")
             } else {
+                setLoggedIn(false);
+                cafeStore.updateUserName([])
                 cafeStore.handleSnackBar('error', "Invalid email or password")
             }
         }

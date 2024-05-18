@@ -311,13 +311,13 @@ class cafeManagement {
     }
 
     cartItems = {}
-    updateUserName = (items) => {
-        this.userName = items;
+    updateCartItems = (items) => {
+        this.cartItems = items;
     }
 
     userName = []
-    updateCartItems = (items) => {
-        this.cartItems = items;
+    updateUserName = (items) => {
+        this.userName = items;
     }
 
     allIngredients = []

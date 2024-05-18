@@ -53,3 +53,49 @@ export const APP_MENU = [
         path: '/category',
     },
 ]
+export const APP_MENU_MANAGER = [
+    {
+        name: 'Home',
+        value: 'home',
+        subMenu: [],
+        icon: <HomeIcon />,
+        path: '/',
+    },
+    {
+        name: 'Order Management',
+        value: 'order',
+        subMenu: [],
+        icon: <ShoppingCartIcon />,
+        path: '/orders',
+    },
+    {
+        name: 'Inventory Management',
+        value: 'inventory',
+        subMenu: [],
+        icon: <PostAddIcon />,
+        path: '/inventory',
+    },
+    {
+        name: 'Item Management',
+        value: 'item',
+        subMenu: [],
+        icon: <BallotIcon />,
+        path: '/items',
+    },
+    {
+        name: 'Category Management',
+        value: 'category',
+        subMenu: [],
+        icon: <CategoryIcon />,
+        path: '/category',
+    },
+]
+export const APP_MENU_CUSTOMER = [
+    {
+        name: 'Home',
+        value: 'home',
+        subMenu: [],
+        icon: <HomeIcon />,
+        path: '/',
+    },
+]
