@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import useStyles from './styles';
 import { observer } from 'mobx-react-lite';
 import cafeManagement from '../../store/cafe';
 import PAYLOAD_SAMPLE from '../../core/config/payload';
 import { Card, CardMedia, CircularProgress, Container, Grid, Typography } from '@mui/material';
 
-const OrderSummary = ({ users }) => {
-    const classes = useStyles();
+const OrderSummary = () => {
     const cafeStore = useContext(cafeManagement);
     const [imageUrls, setImageUrls] = useState({
         date_vs_price: '',
@@ -39,7 +37,7 @@ const OrderSummary = ({ users }) => {
                         <CardMedia
                             component="img"
                             alt="Date vs Price"
-                            image={imageUrls.date_vs_price}
+                            image={`${window.appSettings.API_BASE_URL}/${imageUrls.date_vs_price}`}
                             title="Date vs Price"
                         />
                         <Typography variant="h6" gutterBottom>
@@ -52,9 +50,10 @@ const OrderSummary = ({ users }) => {
                         <CardMedia
                             component="img"
                             alt="Items vs Quantity"
-                            image={imageUrls.items_vs_quantity}
+                            image={`${window.appSettings.API_BASE_URL}/${imageUrls.items_vs_quantity}`}
                             title="Items vs Quantity"
                         />
+                        {console.log(window.appSettings.API_BASE_URL+imageUrls.items_vs_quantity)}
                         <Typography variant="h6" gutterBottom>
                             Items vs Quantity
                         </Typography>

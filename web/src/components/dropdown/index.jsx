@@ -41,9 +41,9 @@ const CustomDropdown = ({ label, value, onChange, options, id, defaultValue, err
           },
         }}
       >
-        {options.map((option, index) => (
+        {options.map((option) => (
           <MenuItem
-            key={index}
+            key={option.value}
             value={option.value}
           >
             {option.label}
