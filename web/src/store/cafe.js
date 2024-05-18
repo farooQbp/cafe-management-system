@@ -77,6 +77,9 @@ class cafeManagement {
             
             allIngredients: observable,
             updateAllIngredients: action,
+
+            cartModalVisible: observable,
+            setCartModalVisible: action,
         });
     }
 
@@ -157,7 +160,8 @@ class cafeManagement {
         const response = postAPI(API_URL.ITEMS, payload);
         if (response) {
             response.then((res) => {
-                this.setItems(res.data)
+                const allItems = res.data.map((item) => ({ ...item, QUANTITY: 0 }))
+                this.setItems(allItems)
             }).catch((err) => {
                 this.setItems([])
                 console.error(err)
@@ -310,7 +314,7 @@ class cafeManagement {
         this.dietory = inventories;
     }
 
-    cartItems = {}
+    cartItems = []
     updateCartItems = (items) => {
         this.cartItems = items;
     }
@@ -323,6 +327,11 @@ class cafeManagement {
     allIngredients = []
     updateAllIngredients = (items) => {
         this.allIngredients = items;
+    }
+
+    cartModalVisible = false
+    setCartModalVisible = (items) => {
+        this.cartModalVisible = items;
     }
 }
 

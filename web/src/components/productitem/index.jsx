@@ -13,6 +13,7 @@ const ProductItem = ({ product, handleCart }) => {
     itemId: 1,
     ingredientId: '',
     quantity: 0,
+    price: 0,
   });
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const ProductItem = ({ product, handleCart }) => {
         itemId: product._id,
         ingredientId: product.INGREDIENTS,
         quantity: 0,
+        price: product.PRICE
       })
     }
   }, [product])

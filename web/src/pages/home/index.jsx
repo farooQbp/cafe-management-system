@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import useStyles from './style';
 import ProductItem from '../../components/productitem';
 import cafeManagement from '../../store/cafe';
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import CustomDropdown from '../../components/dropdown';
 import PAYLOAD_SAMPLE from '../../core/config/payload';
+import CustomButton from '../../components/button';
+import CustomModal from '../../components/modal';
+import { toJS } from 'mobx';
 
 const Home = () => {
   const cafeStore = useContext(cafeManagement);
@@ -121,8 +126,83 @@ const Home = () => {
     setItemPayload(payload)
   }
 
+  const handlePlaceOrder = async () => {
+    const currentItems = [...cafeStore.cartItems]
+    let payload = { ...PAYLOAD_SAMPLE.ORDER_PAYLOAD }
+    payload.customer = cafeStore.userName[0].USER_NAME;
+    payload.orderDateandTime = new Date();
+    payload.orderDetails = currentItems;
+    let price = 0;
+    currentItems.forEach((item) => {
+      price = price + (item.price * item.quantity);
+    })
+    payload.price = Math.round(price)
+    const response = await cafeStore.addNewOrder(payload)
+    if (response) {
+      if (response.data)
+        cafeStore.handleSnackBar('success', 'Order Placed Successfully')
+        cafeStore.setCartModalVisible(false)
+        cafeStore.updateCartItems([])
+        fetchAllItems(itemPayload)
+    } else cafeStore.handleSnackBar('error', 'Error Occured! Place order again')
+  }
+
+  const handleAddmoreItems = () => {
+    const currentCartItems = [...toJS(cafeStore.cartItems)];
+    let productsList = [...toJS(products)];
+    productsList.forEach((item) => {
+      currentCartItems.forEach((currItem) => {
+        if (item._id === currItem.itemId) {
+          item.QUANTITY = currItem.quantity;
+        }
+      })
+    })
+    setProducts(productsList)
+    cafeStore.setItems(productsList)
+    cafeStore.setCartModalVisible(false)
+}
+
+  const handleCartModal = () => (
+    <CustomModal open={cafeStore.cartModalVisible}>
+        <form className={classes.formContainer}>
+            <Stack direction="column" spacing={2} minWidth={650}>
+                <Stack direction="row" spacing={2}>
+                    <TableContainer sx={{ minWidth: 450, maxHeight: 450 }}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell><b>Item</b></TableCell>
+                                    <TableCell><b>Quantity</b></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {cafeStore.cartItems.map((row) => (
+                                    <TableRow
+                                        key={row.itemId}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {row.item}
+                                        </TableCell>
+                                        <TableCell>{row.quantity}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Stack>
+                <Stack direction="row" spacing={2} alignItems="center" justifyContent='center'>
+                    <CustomButton onClick={handleAddmoreItems} className={classes.button} variant='contained' endIcon={<AddShoppingCartIcon />} >Add More Items</CustomButton>
+                    <CustomButton onClick={handlePlaceOrder} className={classes.button} variant='contained' endIcon={<ShoppingCartCheckoutIcon />} >Place Order</CustomButton>
+                </Stack>
+            </Stack>
+        </form>
+    </CustomModal>
+)
+
   return (
     <Box sx={{ minHeight: '500px' }}>
+      {cafeStore.cartModalVisible && handleCartModal()}
       <Stack direction='column' spacing={2}>
         <Stack direction='row' spacing={2}>
           <CustomDropdown

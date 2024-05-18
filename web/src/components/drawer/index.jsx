@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import cafe from '../../store/cafe';
 
 const CustomDrawer = ({ open, toggleDrawer }) => {
-    const [appMenu, setAppMenu] = React.useState(APP_MENU_CUSTOMER)
+    const [appMenu, setAppMenu] = React.useState(APP_MENU)
     const navigate = useNavigate();
     const cafeStore = React.useContext(cafe)
     const handleOnItemClick = (item) => {

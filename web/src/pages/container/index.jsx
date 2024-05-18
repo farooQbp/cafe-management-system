@@ -11,7 +11,7 @@ const DashBoard = observer(({ loggedIn }) => {
         <Observer>
             {() => (
                 <Container
-                    sx={(location && location.pathname && !location.pathname.includes('login')) ? {
+                    sx={{
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
@@ -19,9 +19,9 @@ const DashBoard = observer(({ loggedIn }) => {
                         backgroundColor: 'white',
                         padding: '20px',
                         borderRadius: '10px',
-                        maxHeight: '80vh',
+                        maxHeight: (location && location.pathname && location.pathname !== '/') ? '80vh' : '100vh',
                         overflowY: 'auto',
-                    } : {overflow: 'hidden',}}
+                    }}
                 ><Routers loggedIn={loggedIn} /></Container>)}
         </Observer>
     )

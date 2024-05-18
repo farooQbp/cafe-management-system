@@ -65,6 +65,7 @@ const CustomAppBar = ({ toggleDrawer, setLoggedIn }) => {
     };
     const handleCheckout = () => {
         console.log(toJS(cafeStore.cartItems))
+        cafeStore.setCartModalVisible(true);
     }
 
     const menuId = 'primary-search-account-menu';

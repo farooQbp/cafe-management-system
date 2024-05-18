@@ -12,7 +12,7 @@ import LoginPage from "./pages/login";
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const theme = createTheme();
   const cafeStore = useContext(cafeManagement);
 
