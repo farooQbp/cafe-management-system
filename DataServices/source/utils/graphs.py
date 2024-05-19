@@ -3,6 +3,7 @@ from datetime import datetime
 import os
 
 def create_order_graphs(data, output_dir='graphs'):
+    plt.switch_backend('Agg')
     # Process the data
     item_quantities = {}
     date_prices = {}

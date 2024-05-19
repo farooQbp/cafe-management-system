@@ -23,6 +23,7 @@ class cafeManagement {
             addNewOrder: action,
             fetchCurrentOrder: action,
             fetchOrderSummary: action,
+            fetchOrderSummaryTable: action,
 
             // Item Management functions
             addNewItem: action,
@@ -147,6 +148,19 @@ class cafeManagement {
 
     fetchOrderSummary = (orderID) => {
         const response = postAPI(API_URL.ORDER_SUMMARY, orderID);
+        return response;
+    }
+
+    fetchOrderSummaryTable = (payload) => {
+        const response = postAPI(API_URL.ORDER_LIST, payload);
+        if (response) {
+            response.then((res) => {
+                this.setAllOrders(res.data)
+            }).catch((err) => {
+                this.setAllOrders([])
+                console.error(err)
+            })
+        }
         return response;
     }
 

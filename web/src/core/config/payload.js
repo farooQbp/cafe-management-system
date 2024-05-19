@@ -10,6 +10,7 @@ const PAYLOAD_SAMPLE = {
     UPDATE_USER: 'userId',
 
     // Order Management
+    ORDER_FILTER: { startDate: '2021-05-05', requireStart: true, endDate: '2024-05-19' },
     ORDER_PAYLOAD: {
         customer: 'Customer Name',
         orderDateandTime: new Date(),

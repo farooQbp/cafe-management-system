@@ -13,6 +13,7 @@ import { observer } from 'mobx-react-lite';
 import cafeManagement from '../../store/cafe';
 import CustomButton from '../../components/button';
 import CustomModal from '../../components/modal';
+import PAYLOAD_SAMPLE from '../../core/config/payload';
 
 const ViewAllOrders = ({ orders }) => {
     const classes = useStyles();
@@ -21,7 +22,7 @@ const ViewAllOrders = ({ orders }) => {
     const [items, setItems] = useState([])
 
     const fetchOrders = async () => {
-        await cafeStore.fetchCurrentOrder();
+        await cafeStore.fetchOrderSummaryTable(PAYLOAD_SAMPLE.ORDER_FILTER);
     }
 
     useEffect(() => {
