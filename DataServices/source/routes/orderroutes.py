@@ -51,7 +51,11 @@ def find_order_summary(connection, payload):
 
     if require_start and start_date:
         start_date_dt = datetime.strptime(start_date, '%Y-%m-%d')
-        query['orderDateandTime']['$gte'] = start_date_dt
+        if 'orderDateandTime' in query:
+            query['orderDateandTime']['$gte'] = start_date_dt
+        else:
+            query['orderDateandTime'] = {'$gte': start_date_dt}
+
     cursor = connection.find(query)
     documents = [{**doc, "_id": str(doc["_id"])} for doc in cursor]
     data = jsonify(documents)

@@ -8,6 +8,7 @@ const API_URL = {
     ORDER: 'order',
     ORDER_SUMMARY: 'order-summary',
     ORDER_LIST: 'order-list',
+    ORDER_INGREDIENT: 'ingredient-consumption',
 
     // Item Management
     ADD_ITEM: 'add-item',

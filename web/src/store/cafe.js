@@ -24,6 +24,7 @@ class cafeManagement {
             fetchCurrentOrder: action,
             fetchOrderSummary: action,
             fetchOrderSummaryTable: action,
+            fetchIngredietSummary: action,
 
             // Item Management functions
             addNewItem: action,
@@ -148,6 +149,11 @@ class cafeManagement {
 
     fetchOrderSummary = (orderID) => {
         const response = postAPI(API_URL.ORDER_SUMMARY, orderID);
+        return response;
+    }
+
+    fetchIngredietSummary = (payload) => {
+        const response = postAPI(API_URL.ORDER_INGREDIENT, payload);
         return response;
     }
 
