@@ -1,5 +1,3 @@
-Sure, I'll add the table creation steps to the README file. Here's the updated version:
-
 ---
 
 # Cafe Management System
