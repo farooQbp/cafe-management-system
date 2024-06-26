@@ -68,7 +68,7 @@ def setup_category_routes(app):
                 payload = request.json
                 connection = connect_to_oracle()
                 add_category(connection, payload)
-                return jsonify({'message': 'New Category added successfully'})
+                return jsonify('New Category added successfully')
             except cx_Oracle.DatabaseError as e:
                 return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
             finally:
@@ -104,7 +104,7 @@ def setup_category_routes(app):
             payload = request.json
             connection = connect_to_oracle()
             update_inventory(connection, item_id, payload)
-            return jsonify({'message': 'Inventory updated successfully'})
+            return jsonify('Inventory updated successfully')
         except cx_Oracle.DatabaseError as e:
             return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
         finally:
@@ -117,7 +117,7 @@ def setup_category_routes(app):
             payload = request.json
             connection = connect_to_oracle()
             add_new_inventory(connection, payload)
-            return jsonify({'message': 'Inventory Added successfully'})
+            return jsonify('Inventory Added successfully')
         except cx_Oracle.DatabaseError as e:
             return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
         finally:

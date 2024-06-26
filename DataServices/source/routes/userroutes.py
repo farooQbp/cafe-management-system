@@ -6,6 +6,16 @@ def get_user_types(connection):
     with connection.cursor() as cursor:
         rows = fetch_all_rows("SELECT * FROM User_Type", cursor)
         return jsonify(rows)
+    
+def user_login_password(connection, name, password):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            Select USER_TYPE, USER_NAME, USER_ID, USER_EMAIL from Users WHERE USER_EMAIL = :name and USER_PASSWORD = :password""",
+            (name, password))
+        columns = [desc[0] for desc in cursor.description]
+        users = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        isValidUser = len(users)
+        return users if isValidUser == 1 else []
 
 def get_users(connection):
     with connection.cursor() as cursor:
@@ -24,7 +34,8 @@ def update_user(connection, payload, id):
     with connection.cursor() as cursor:
         name = payload["name"]
         email = payload["email"]
-        update_query = "UPDATE Users SET User_Name = :name, User_Email = :email WHERE ID = :id"
+        print(email, name, id)
+        update_query = "UPDATE Users SET User_Name = :name, User_Email = :email WHERE USER_ID = :id"
         cursor.execute(update_query, (name, email, id))
         connection.commit()
 
@@ -35,6 +46,16 @@ def setup_user_routes(app):
         try:
             connection = connect_to_oracle()
             return get_user_types(connection)
+        except cx_Oracle.DatabaseError as e:
+            return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
+        finally:
+            if connection:
+                connection.close()
+    @app.route('/login/<string:user_name>/<string:user_password>', methods=['GET'])
+    def user_login(user_name, user_password):
+        try:
+            connection = connect_to_oracle()
+            return jsonify(user_login_password(connection, user_name, user_password))
         except cx_Oracle.DatabaseError as e:
             return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
         finally:
@@ -57,7 +78,7 @@ def setup_user_routes(app):
                 payload = request.json
                 connection = connect_to_oracle()
                 add_user(connection, payload)
-                return jsonify({'message': 'User added successfully'})
+                return jsonify('User added successfully')
             except cx_Oracle.DatabaseError as e:
                 return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
             finally:
@@ -70,7 +91,7 @@ def setup_user_routes(app):
             payload = request.json
             connection = connect_to_oracle()
             update_user(connection, payload, item_id)
-            return jsonify({'message': 'User added successfully'})
+            return jsonify('User updated successfully')
         except cx_Oracle.DatabaseError as e:
             return jsonify({'error': 'Database connection error', 'message': str(e)}), 500
         finally:
