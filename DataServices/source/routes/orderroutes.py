@@ -7,7 +7,6 @@ from ..oracle.oracle import connect_to_oracle, fetch_all_rows
 from ..oracle.mongo import monodb_connection
 from .ingredientsroutes import find_ingredients
 from ..utils.utils import stock_updation
-from source.utils.graphs import create_order_graphs
 from source.utils.ingredient_consumption import calculate_and_plot_ingredient_consumption
 from .categoryroutes import update_inventory
 
@@ -36,32 +35,6 @@ def find_order_list(connection, payload):
     cursor = connection.find(query)
     documents = [{**doc, "_id": str(doc["_id"])} for doc in cursor]
     return jsonify(documents)
-
-def find_order_summary(connection, payload):
-    query = {}
-    # Parse the payload for startDate, requireStart, and endDate
-    start_date = payload.get('startDate', '')
-    require_start = payload.get('requireStart', False)
-    end_date = payload.get('endDate', '')
-
-    # Construct the query
-    if end_date:
-        end_date_dt = datetime.strptime(end_date, '%Y-%m-%d')
-        query['orderDateandTime'] = {'$lte': end_date_dt}
-
-    if require_start and start_date:
-        start_date_dt = datetime.strptime(start_date, '%Y-%m-%d')
-        if 'orderDateandTime' in query:
-            query['orderDateandTime']['$gte'] = start_date_dt
-        else:
-            query['orderDateandTime'] = {'$gte': start_date_dt}
-
-    cursor = connection.find(query)
-    documents = [{**doc, "_id": str(doc["_id"])} for doc in cursor]
-    data = jsonify(documents)
-    json_data = json.loads(data.data.decode('utf-8')) 
-    graphs = create_order_graphs(json_data)
-    return jsonify(graphs)
 
 def order_item(connection, payload):
     #  connected to mongo db to place order
@@ -125,8 +98,13 @@ def find_ingredient_usage(payload):
     orders_list = list(cursor_orders)
     items_list = list(cursor_items)
     ingredients_list = list(cursor_ingredients)
-    result = calculate_and_plot_ingredient_consumption(orders_list, items_list, ingredients_list)
-    return jsonify(result)
+    oracle_connection = connect_to_oracle()
+    with oracle_connection.cursor() as cursor:
+        rows = fetch_all_rows("SELECT * FROM INVENTORY", cursor)
+        inventories = jsonify(rows)
+        json_inventories = json.loads(inventories.data.decode('utf-8')) 
+        result = calculate_and_plot_ingredient_consumption(orders_list, items_list, ingredients_list, json_inventories)
+        return jsonify(result)
 
 def setup_order_routes(app):
 
@@ -146,12 +124,6 @@ def setup_order_routes(app):
     def all_order():
         connection = monodb_connection('orderManagement')
         return find_order(connection, False)
-    
-    @app.route('/order-summary', methods=['POST'])
-    def order_summary():
-        payload = request.json
-        connection = monodb_connection('orderManagement')
-        return find_order_summary(connection, payload)
     
     @app.route('/graphs/<path:filename>', methods=['GET'])
     def serve_graph(filename):

@@ -6,7 +6,6 @@ const API_URL = {
 
     // Order Management
     ORDER: 'order',
-    ORDER_SUMMARY: 'order-summary',
     ORDER_LIST: 'order-list',
     ORDER_INGREDIENT: 'ingredient-consumption',
 

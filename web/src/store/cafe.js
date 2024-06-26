@@ -22,7 +22,6 @@ class cafeManagement {
             // Order Management functions
             addNewOrder: action,
             fetchCurrentOrder: action,
-            fetchOrderSummary: action,
             fetchOrderSummaryTable: action,
             fetchIngredietSummary: action,
 
@@ -144,11 +143,6 @@ class cafeManagement {
                 console.error(err)
             })
         }
-        return response;
-    }
-
-    fetchOrderSummary = (orderID) => {
-        const response = postAPI(API_URL.ORDER_SUMMARY, orderID);
         return response;
     }
 

@@ -12,6 +12,7 @@ import CustomButton from '../../components/button';
 import CustomModal from '../../components/modal';
 import cafeManagement from '../../store/cafe';
 import { observer } from 'mobx-react-lite';
+import PAYLOAD_SAMPLE from '../../core/config/payload';
 
 const OrderManagement = () => {
     const cafeStore = useContext(cafeManagement);
@@ -19,12 +20,26 @@ const OrderManagement = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const [needStartDate, setNeedStartDate] = useState(false);
     const [needSettings, setNeedSettings] = useState(false);
-    const currentDate = new Date();
-    const [searchDate, setSearchDate] = useState({
-        start: currentDate,
-        end: currentDate,
-        startDateRequire: !needStartDate,
+    const [searchDate, setSearchDate] = useState(PAYLOAD_SAMPLE.ORDER_FILTER);
+    const [ingredientDetails, setIngredientDetails] = useState({
+        date_vs_price: "",
+        items_vs_quantity: "",
+        ingredient_consumption: "",
+        sale_profit: "",
+        consumption: [],
     });
+    const [loading, setLoading] = useState(true);
+
+    const fetchOrderSummary = async () => {
+        const ingredientResponse = await cafeStore.fetchIngredietSummary(searchDate);
+        setLoading(false)
+        if (ingredientResponse && ingredientResponse.data) {
+            setIngredientDetails(ingredientResponse.data)
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+        }
+    }
 
     const handleChangeTab = (event, newValue) => {
         setSelectedTab(newValue);
@@ -32,6 +47,7 @@ const OrderManagement = () => {
 
     const handleSearchOrders = () => {
         console.log('Search', searchDate)
+        fetchOrderSummary();
     }
 
     const handleStartDateToggle = () => {
@@ -86,7 +102,7 @@ const OrderManagement = () => {
                 <Tab label="View Order Summary" />
             </Tabs>
             <TabPanel value={selectedTab} index={0}>
-                <ViewAllOrders orders={cafeStore.allOrders} />
+                <ViewAllOrders orders={cafeStore.allOrders} fetchOrderSummary={fetchOrderSummary} ingredientDetails={ingredientDetails} loading={loading} />
             </TabPanel>
             <TabPanel value={selectedTab} index={1}>
                 <OrderSummary orders={cafeStore.allOrders} />
